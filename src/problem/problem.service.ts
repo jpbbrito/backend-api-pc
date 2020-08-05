@@ -15,12 +15,10 @@ export class ProblemService {
     async show (): Promise<ProblemDto[]> {
         return await this.connection.query(`SELECT * FROM PROBLEMS`);
     }
-    
     async store(problem: ProblemDto ): Promise<ProblemDto> {
         const { description, address, latitude, longitude} = problem;
-        await this.connection.query(`INSET INTO problems(description, address, latitude, longitude) 
-            VALUES (:description, :address, :latitude, :longitude)`, [ description, address, latitude, longitude ] )
-        return await this.connection.query(`SELECT * FROM problems 
-            WHERE id_problem = (SELECT MAX(id_problem) FROM problems)`);
+        await this.connection.query(`INSERT INTO problems(description, address, latitude, longitude)
+            VALUES ('${description}', '${address}', ${latitude}, ${longitude})`);
+        return await this.connection.query(`SELECT * FROM problems WHERE id_problem = (SELECT MAX(id_problem) FROM problems)`);
     }
 }
