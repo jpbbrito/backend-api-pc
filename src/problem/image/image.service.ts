@@ -9,7 +9,7 @@ export class ImageService {
     constructor(@InjectConnection() private connection: Connection ) {}
 
     async index(id: number): Promise<ImageProblemDto> {
-        return await this.connection.query(`SELECT path_image FROM images_problem WHERE problem_id = :id`,[id])
+        return await this.connection.query(`SELECT PATH_IMAGE AS "path_image" FROM images_problem WHERE problem_id = :id`,[id])
     }
 
     async store(file: any, id: number): Promise<ImageProblemDto[]> {
@@ -19,8 +19,7 @@ export class ImageService {
         }catch(err) {
             return undefined;
         }
-        return await this.connection.query(`SELECT * FROM images_problem 
-            WHERE id_image = (SELECT MAX(id_image) FROM images_problem)`);
+        return await this.connection.query(`SELECT ID_IMAGE AS "id", PROBLEM_ID AS "problem_id", PATH_IMAGE AS "path_image", CREATED_AT AS "created_at", UPDATED_AT AS "updated_at" FROM images_problem WHERE id_image = (SELECT MAX(id_image) FROM images_problem)`);
     }
 
 }

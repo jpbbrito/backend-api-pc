@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class ImageProblemDto {
     @ApiProperty()
-    id_image: number;
+    id: number;
 
     @ApiProperty()
     problem_id: number;
